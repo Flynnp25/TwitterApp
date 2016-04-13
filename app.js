@@ -16,57 +16,7 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse applica
 app.use(methodOverride());
 
 //Apis
-
-
-app.get('/api/getUserTimeLine/:screenName', function(req, res) {
-
-    var key = '5VwJxifQyX0tSJFuRdNaYbMlp';
-    var secret = 'sg7mvtYBKEQ2HKu6RZAT5ZdP34WC9xjKpKbI1TDyGjPThWTloz';
-    var cat = key + ":" + secret;
-    var buffer = new Buffer(cat);
-    var credentials = buffer.toString('base64');
-    var screenname = req.params.screenName;
-
-    var oauth2Options = {
-        method: "POST",
-        url: "https://api.twitter.com/oauth2/token",
-        headers: {
-            "Authorization": "Basic " + credentials,
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-        },
-        body: "grant_type=client_credentials"
-    };
-
-
-    var access_token;
-    request(oauth2Options,function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var info = JSON.parse(body);
-            access_token = info.access_token;
-            getUserTimeline(access_token);
-            return;
-        }
-        console.log("Error : "+body);
-    });
-
-var getUserTimeline = function(accessToken){
-
-    var options = {
-        method: "GET",
-        url: "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name="+screenname,
-        headers: {
-            "Authorization": "Bearer " + accessToken,
-        }};
-
-    request(options,function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            res.send(body);
-        }
-        console.log("Error : "+body);
-    });
-};
-});
-// listen (start app with node server.js) ======================================
+require('./routes/routes')(app);
 
 app.get('*', function(req, res) {
   res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)

@@ -1,5 +1,12 @@
-<p>This is the partial for view 1.</p>
-</br>
-<ol>
-    <li ng-repeat="tweet in timeLine">{{tweet.text}}</li>
-</ol>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 my-class" style="border-color: #{{user.profile_link_color}}">
+            <br>
+            <img src="{{user.profile_image_url}}" class="img-responsive" alt="Responsive image">
+            <br>
+            <ul>
+                <li ng-repeat="tweet in timeLine">{{tweet.text}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
