@@ -5,7 +5,25 @@
             <img src="{{user.profile_image_url}}" class="img-responsive" alt="Responsive image">
             <br>
             <ul>
-                <li ng-repeat="tweet in timeLine">{{tweet.text}}</li>
+                <li ng-repeat="tweet in timeLine">
+                    <p>{{tweet.text}}</p>
+                    <div ng-if="!tweet.entities.urls.length <= 0">
+                        <div class="img-responsive" alt="Responsive image" ng-repeat="video in tweet.entities.urls">
+                            <ng-youtube-embed
+                                    url="video.expanded_url"
+                                    width="auto"
+                                    height="auto"
+                                    autohide="true"
+                                    theme="light">
+                            </ng-youtube-embed>
+                        </div>
+                    </div>         
+                    <div ng-if="!tweet.entities.media.length <= 0">
+                        <div ng-repeat="pic in tweet.entities.media">
+                            <img class="img-responsive" alt="Responsive image" src="{{pic.media_url}}">
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
